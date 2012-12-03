@@ -12,9 +12,29 @@ public class HbHelperSingle extends HbHelperAbstract {
 	private static boolean isProduction = false;
 	boolean isInit = false;
 
+	/**
+	 * Init variable setup to create the Singleton {@link HbHelperSingle}
+	 * 
+	 * @param url
+	 * @param user
+	 * @param password
+	 * @param schema
+	 */
 	public static void init(String url, String user, String password,
 			String schema) {
+		HbHelperSingle.url = url;
+		HbHelperSingle.password = password;
+		HbHelperSingle.user = user;
+		HbHelperSingle.schema = schema;
+	}
 
+	/**
+	 * A method to set production level
+	 * 
+	 * @param flag
+	 */
+	public static void setProduction(boolean flag) {
+		HbHelperSingle.isProduction = flag;
 	}
 
 	public static HbHelperSingle getInstance() {
@@ -22,6 +42,10 @@ public class HbHelperSingle extends HbHelperAbstract {
 			pool = new HbHelperSingle();
 		}
 		return pool;
+	}
+
+	// private constructor for singleton
+	private HbHelperSingle() {
 	}
 
 	@Override
@@ -35,7 +59,6 @@ public class HbHelperSingle extends HbHelperAbstract {
 		if (isProduction) {
 			configuration.setProperty("hibernate.show_sql", "true");
 		}
-		// startSecondLevelCache();
 		factory = configuration.buildSessionFactory();
 	}
 
